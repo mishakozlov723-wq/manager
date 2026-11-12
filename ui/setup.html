@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Установка Retocker Manager</title>
+<link rel="stylesheet" href="fonts.css"><link rel="stylesheet" href="style.css">
+</head><body class="setup">
+<div class="win">
+  <div class="tbar">
+    <div class="drag" data-tauri-drag-region><img src="icons/manager.svg" alt=""><span data-tauri-drag-region id="ttl">Установка Retocker Manager</span></div>
+    <button class="wb" id="wMin" title="Свернуть"><svg viewBox="0 0 16 16"><path d="M3.5 8h9"/></svg></button>
+    <button class="wb x" id="wClose" title="Закрыть"><svg viewBox="0 0 16 16"><path d="m4 4 8 8m0-8-8 8"/></svg></button>
+  </div>
+  <div class="body">
+    <!-- the four programs around the manager -->
+    <div class="stage" id="stage">
+      <div class="tl"><img src="icons/voice.svg" alt=""></div>
+      <div class="tl"><img src="icons/snap.svg" alt=""></div>
+      <div class="tl me"><img src="icons/manager.svg" alt=""></div>
+      <div class="tl"><img src="icons/zapret.svg" alt=""></div>
+      <div class="tl"><img src="icons/translate.png" alt=""></div>
+    </div>
+
+    <!-- install: the start -->
+    <section class="scr" id="s-welcome">
+      <div class="hd"><h1>Retocker Manager</h1><span class="ver" id="wVer"></span></div>
+      <p class="lead">Все программы Retocker в одном окне: ставит, обновляет и удаляет Voice, Snap, Zapret Manager и расширение Translate.</p>
+      <div class="status ok was" id="wWas" hidden><i></i><span></span></div>
+      <div class="opts">
+        <label class="row"><div class="lbl"><span>Ярлык на рабочем столе</span><small>В меню «Пуск» ярлык будет в любом случае</small></div><input type="checkbox" class="sw" id="wDesk"></label>
+      </div>
+      <div class="foot"><span class="fnote">Ставится в твою папку — права администратора не нужны</span><button class="btn pri big" id="wGo">Установить</button></div>
+    </section>
+
+    <!-- install / uninstall: working -->
+    <section class="scr" id="s-prog">
+      <div class="hd"><h1 id="gTitle">Устанавливаю…</h1></div>
+      <div class="pbar big"><b id="gBar"></b></div>
+      <div class="gstep" id="gStep">Готовлюсь…</div>
+    </section>
+
+    <!-- install: finished -->
+    <section class="scr" id="s-done">
+      <div class="hd"><span class="badge ok"><svg viewBox="0 0 16 16"><path d="m3.6 8.4 2.9 2.9 5.9-6"/></svg></span><h1>Готово</h1></div>
+      <p class="lead" id="dTxt"></p>
+      <div class="foot"><span class="sp"></span><button class="btn big" id="dClose">Закрыть</button><button class="btn pri big" id="dRun">Запустить</button></div>
+    </section>
+
+    <!-- install / uninstall: something went wrong -->
+    <section class="scr" id="s-err">
+      <div class="hd"><span class="badge bad"><svg viewBox="0 0 16 16"><path d="M8 4.2v4.6M8 11.4h.01"/></svg></span><h1 id="eTitle">Не получилось установить</h1></div>
+      <p class="lead" id="eTxt"></p>
+      <div class="foot"><span class="sp"></span><button class="btn big" id="eClose">Закрыть</button><button class="btn pri big" id="eRetry">Попробовать ещё раз</button></div>
+    </section>
+
+    <!-- uninstall: the start -->
+    <section class="scr" id="s-un">
+      <div class="hd"><h1>Удалить Retocker Manager?</h1></div>
+      <p class="lead">Уберу менеджер и его ярлыки. Программы, которые ты ставил через него, останутся на месте — если они больше не нужны, сначала удали их в самом менеджере.</p>
+      <div class="foot"><span class="sp"></span><button class="btn big" id="uCancel">Отмена</button><button class="btn red big" id="uGo">Удалить</button></div>
+    </section>
+
+    <!-- uninstall: finished -->
+    <section class="scr" id="s-undone">
+      <div class="hd"><span class="badge ok"><svg viewBox="0 0 16 16"><path d="m3.6 8.4 2.9 2.9 5.9-6"/></svg></span><h1>Retocker Manager удалён</h1></div>
+      <p class="lead">Спасибо, что пользовался. Вернуть его можно в любой момент — тем же установщиком.</p>
+      <div class="foot"><span class="sp"></span><button class="btn pri big" id="udClose">Закрыть</button></div>
+    </section>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="shared.js"></script><script src="setup.js"></script>
+</body></html>

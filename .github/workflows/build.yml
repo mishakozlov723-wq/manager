@@ -1,0 +1,100 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    env:
+      VER: 1.0.${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Prepare
+        shell: bash
+        run: |
+          set -o pipefail
+          npm install --no-audit --no-fund 2>&1 | tee -a ci.log
+          node scripts/prepare.mjs "$VER" 2>&1 | tee -a ci.log
+          npx tauri icon app-icon.svg -o src-tauri/icons 2>&1 | tail -3 | tee -a ci.log
+
+      - name: Build
+        shell: bash
+        run: |
+          set -o pipefail
+          npx tauri build --no-bundle 2>&1 | tee -a ci.log
+          ls -la src-tauri/target/release/*.exe | tee -a ci.log
+
+      # installs itself, installs and removes the real Voice and Snap, updates itself, removes itself
+      - name: Install, manage programs, update, uninstall check
+        id: check
+        shell: pwsh
+        run: ./scripts/check.ps1
+
+      - name: Screenshots to the ci-shots branch
+        if: always() && steps.check.outcome != 'skipped'
+        continue-on-error: true
+        shell: bash
+        run: |
+          git config user.name "ci"
+          git config user.email "ci@users.noreply.github.com"
+          mkdir -p out && cp -r shots check.txt out/ 2>/dev/null || true
+          git checkout --orphan ci-shots
+          git rm -rf --cached . > /dev/null
+          git add -f out
+          git commit -q -m "run ${{ github.run_number }}"
+          git push -q -f origin ci-shots
+
+      # one exe: named «…Setup…» it installs itself. The app looks for updates in this repository's releases;
+      # gh publishes the release only after the files are uploaded, so «latest» never points at an empty one.
+      - name: Release
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, '[release]')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -o pipefail
+          cp src-tauri/target/release/rt-manager.exe Retocker-Manager-Setup.exe
+          node scripts/manifest.mjs Retocker-Manager-Setup.exe "$VER" "" latest.json
+          cat latest.json | tee -a ci.log
+          gh release create "v$VER" Retocker-Manager-Setup.exe latest.json --latest --target "$GITHUB_SHA" \
+            --title "Retocker Manager $VER" --notes-file RELEASE.md 2>&1 | tee -a ci.log
+
+      - name: Keep the build
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: retocker-manager-${{ env.VER }}
+          path: src-tauri/target/release/rt-manager.exe
+          retention-days: 14
+
+      - name: Report a failure
+        if: failure() && github.event_name == 'push'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          { echo "Run ${{ github.run_number }} (${GITHUB_SHA::7}) failed. Last lines of the log:"; echo; echo '```'; cat check.txt 2>/dev/null | tail -n 60; tail -c 60000 ci.log 2>/dev/null | grep -v '^\s*Compiling ' | tail -n 300; echo '```'; } > issue.md
+          gh issue create --title "Build ${{ github.run_number }} failed" --body-file issue.md
