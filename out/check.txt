@@ -1,0 +1,39 @@
+build: D:\a\manager\manager\src-tauri\target\release\rt-manager.exe (6859776 bytes), version 1.0.3
+ok    setup window: walked through and closed
+ok    setup: program in C:\Users\runneradmin\AppData\Local\Programs\Retocker Manager
+ok    setup: version in Windows is 1.0.3 (got 1.0.3)
+ok    setup: Start menu and desktop shortcuts
+ok    setup: no internet mark on the installed exe
+ok    app: running after start
+  --do remote voice -> {"ok":true,"result":{"id":"voice","notes":"Исправили «Запускать в трее»: после первого нажатия горячей клавиши экран переставал реагировать на клики, пока мышь не пройдёт по капсуле.","size":"7,2 МБ","version":"1.0.61"}}
+ok    remote: voice is at version '1.0.61'
+  --do remote snap -> {"ok":true,"result":{"id":"snap","notes":"Затемнение больше не мигает на первом снимке. Сразу после запуска программы первый снимок открывался с мерцающим затемнением. Теперь оно появляется плавно с первого раза, на всех экранах.","size":"12,0 МБ","version":"0.4.23"}}
+ok    remote: snap is at version '0.4.23'
+  --do remote zapret -> {"ok":true,"result":{"id":"zapret","notes":"• «Подобрать за меня». Менеджер сам перебирает стратегии и оставляет первую, с которой открываются YouTube и Discord. Один запрос администратора, обычно до пары минут.\n• Предупреждение, если стратегия перестала работать. Пока менеджер открыт, он раз в 10 минут тихо проверяет YouTube и Discord и предложит подобрать стратегию заново.\n• Игровой режим. В настройках: обход для игр (порты 1024–65535) — TCP, UDP или оба.\n• Список IP-адресов. Загрузка и обновление списка IP от Flowseal одной кнопкой — помогает, когда сайт или игра блокируются по IP.\n• Готовые наборы сайтов. Instagram, Facebook, X, Telegram, SoundCloud, LinkedIn, Patreon, Rutracker — включаются и выключаются одной кнопкой.\n• Исключения. Сайты, которые Zapret не будет трогать никогда (например, банк или игра, сломавшиеся от обхода).","size":"71,9 МБ","version":"0.3.7"}}
+ok    remote: zapret is at version '0.3.7'
+  --do remote translate -> {"ok":true,"result":{"id":"translate","notes":"","size":"","version":"1.0.3"}}
+ok    remote: translate is at version '1.0.3'
+  --do install voice -> {"ok":true,"result":{"firefox":false,"id":"voice","installed":true,"running":false,"version":"1.0.61"}}
+ok    install voice: version 1.0.61
+ok    install voice: exe in 'C:\Users\runneradmin\AppData\Local\Programs\Retocker Voice'
+ok    install voice: the manager is still running
+  --do install snap -> {"ok":true,"result":{"firefox":false,"id":"snap","installed":true,"running":false,"version":"0.4.23"}}
+ok    install snap: version 0.4.23
+ok    install snap: exe in 'C:\Users\runneradmin\AppData\Local\Programs\Retocker Snap'
+ok    install snap: the manager is still running
+  --do status  -> {"ok":true,"result":[{"firefox":false,"id":"voice","installed":true,"running":false,"version":"1.0.61"},{"firefox":false,"id":"snap","installed":true,"running":false,"version":"0.4.23"},{"firefox":false,"id":"zapret","installed":false,"running":false,"version":""},{"firefox":true,"id":"translate","installed":false,"running":false,"version":""}]}
+  firefox on this machine: True
+  --do uninstall voice -> {"ok":true,"result":{"firefox":false,"id":"voice","installed":false,"running":false,"version":""}}
+ok    uninstall voice
+  --do uninstall snap -> {"ok":true,"result":{"firefox":false,"id":"snap","installed":false,"running":false,"version":""}}
+ok    uninstall snap
+ok    update: version in Windows is 9.9.9 (got 9.9.9)
+ok    update: the new copy is running
+ok    update: the old copy is cleaned up
+ok    uninstall window: walked through and closed
+ok    uninstall: exe, folder and the entry in Windows are gone
+ok    uninstall: shortcuts are gone
+ok    uninstall: its data is gone
+ok    quiet install: code 0, no desktop shortcut
+ok    quiet uninstall: code 0
+failed checks: 0

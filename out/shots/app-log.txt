@@ -1,0 +1,35 @@
+1794475175 Setup v1.0.3
+1794475181 setup v1.0.3: into C:\Users\runneradmin\AppData\Local\Programs\Retocker Manager desktop=true
+1794475181 setup: installed C:\Users\runneradmin\AppData\Local\Programs\Retocker Manager\rt-manager.exe
+1794475185 start v1.0.3 updated=
+1794475200 voice: install
+1794475200   job {"got":0,"id":"voice","stage":"down","total":7514624}
+1794475201   job {"got":1378,"id":"voice","stage":"down","total":7514624}
+1794475201   job {"got":4217187,"id":"voice","stage":"down","total":7514624}
+1794475201   job {"got":7514624,"id":"voice","stage":"down","total":7514624}
+1794475201   job {"id":"voice","stage":"check"}
+1794475201   job {"id":"voice","stage":"install"}
+1794475201 voice: install -> Ok(())
+1794475201 snap: install
+1794475201   job {"got":0,"id":"snap","stage":"down","total":12561408}
+1794475202   job {"got":1378,"id":"snap","stage":"down","total":12561408}
+1794475202   job {"got":2070890,"id":"snap","stage":"down","total":12561408}
+1794475202   job {"got":5888362,"id":"snap","stage":"down","total":12561408}
+1794475202   job {"got":8804714,"id":"snap","stage":"down","total":12561408}
+1794475202   job {"got":12561408,"id":"snap","stage":"down","total":12561408}
+1794475202   job {"id":"snap","stage":"check"}
+1794475202   job {"id":"snap","stage":"install"}
+1794475202 snap: install -> Ok(())
+1794475202 start v1.0.3 updated=
+1794475214 voice: uninstall wipe=true
+1794475214   job {"id":"voice","stage":"remove"}
+1794475217 voice: uninstall -> Ok(())
+1794475217 snap: uninstall wipe=true
+1794475217   job {"id":"snap","stage":"remove"}
+1794475219 snap: uninstall -> Ok(())
+1794475219 start v1.0.3 updated=
+1794475229 test update: manifest Ok("9.9.9")
+1794475229 update: 1.0.3 -> 9.9.9 from D:\a\_temp\payload.exe
+1794475229 update: applied 9.9.9, restarting
+1794475229 waited for the old copy (2608): gone
+1794475229 start v1.0.3 updated=9.9.9
