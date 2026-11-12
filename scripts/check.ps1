@@ -36,7 +36,7 @@ L "build: $exe ($((Get-Item $exe).Length) bytes), version $env:VER"
 
 # 1. the setup through its window, screenshots on the way
 $env:RM_SETUP_AUTO = '1'
-$p = Start-Process $setup -PassThru
+$p = Start-Process $setup -NoNewWindow -PassThru
 $i = 0
 while (-not $p.HasExited -and $i -lt 14) { Start-Sleep 2; $i++; Shot ('setup-{0:d2}' -f $i) }
 $p.WaitForExit(20000) | Out-Null
@@ -50,7 +50,7 @@ Check 'setup: no internet mark on the installed exe' (-not (Get-Item $app -Strea
 
 # 2. the window of the manager
 $env:RM_DEBUG = '1'
-Start-Process $app
+Start-Process $app -NoNewWindow
 Start-Sleep 14
 Shot 'app-01-start'
 Check 'app: running after start' ((Running) -eq 1)
@@ -62,7 +62,7 @@ function Mgr($what, $id, $more) {
   $a = @('--do', $what, '--out', "`"$out`"")
   if ($id) { $a += @('--id', $id) }
   if ($more) { $a += $more }
-  $q = Start-Process $exe -ArgumentList $a -PassThru
+  $q = Start-Process $exe -NoNewWindow -ArgumentList $a -PassThru
   if (-not $q.WaitForExit(300000)) { $q.Kill() }
   $raw = if (Test-Path $out) { Get-Content $out -Raw -Encoding utf8 } else { '{"ok":false,"error":"no answer"}' }
   L "  --do $what $id -> $raw"
@@ -85,7 +85,7 @@ foreach ($pr in @(@('voice', 'RetockerVoice', 'retocker-voice'), @('snap', 'Reto
 }
 # a fresh start of the window shows both as installed
 Get-Process rt-manager -ErrorAction SilentlyContinue | Stop-Process -Force
-Start-Process $app
+Start-Process $app -NoNewWindow
 Start-Sleep 12
 Shot 'app-02-two-installed'
 $st = Mgr 'status'
@@ -106,9 +106,9 @@ $env:NOTES = 'test'
 node scripts/manifest.mjs $pay 9.9.9 $pay $man
 Remove-Item Env:NOTES
 $env:RM_UPDATE_URL = $man
-Start-Process $app
+Start-Process $app -NoNewWindow
 Start-Sleep 10
-Start-Process $app -ArgumentList '--test-update'
+Start-Process $app -NoNewWindow -ArgumentList '--test-update'
 Start-Sleep 16
 Shot 'update-after'
 Check "update: version in Windows is 9.9.9 (got $((Reg 'RetockerManager').DisplayVersion))" ((Reg 'RetockerManager').DisplayVersion -eq '9.9.9')
@@ -122,7 +122,7 @@ Start-Sleep 1
 
 # 5. uninstall through its window
 $env:RM_SETUP_AUTO = '1'
-$u = Start-Process $app -ArgumentList '--uninstall' -PassThru
+$u = Start-Process $app -NoNewWindow -ArgumentList '--uninstall' -PassThru
 $i = 0
 while (-not $u.HasExited -and $i -lt 10) { Start-Sleep 2; $i++; Shot ('uninstall-{0:d2}' -f $i) }
 $u.WaitForExit(20000) | Out-Null
@@ -134,9 +134,9 @@ Check 'uninstall: shortcuts are gone' (-not (Test-Path $menu) -and -not (Test-Pa
 Check 'uninstall: its data is gone' (-not (Test-Path $data))
 
 # 6. once more without windows
-$p = Start-Process $setup -ArgumentList '--silent', '--no-desktop' -PassThru -Wait
+$p = Start-Process $setup -NoNewWindow -ArgumentList '--silent', '--no-desktop' -PassThru -Wait
 Check "quiet install: code $($p.ExitCode), no desktop shortcut" ($p.ExitCode -eq 0 -and (Test-Path $app) -and (Test-Path $menu) -and -not (Test-Path $desk))
-$p = Start-Process $app -ArgumentList '--uninstall', '--silent' -PassThru -Wait
+$p = Start-Process $app -NoNewWindow -ArgumentList '--uninstall', '--silent' -PassThru -Wait
 Start-Sleep 6
 Check "quiet uninstall: code $($p.ExitCode)" ($p.ExitCode -eq 0 -and -not (Test-Path $app) -and -not (Test-Path $dir) -and -not (Reg 'RetockerManager'))
 

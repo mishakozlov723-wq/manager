@@ -17,6 +17,7 @@ concurrency:
 jobs:
   windows:
     runs-on: windows-latest
+    timeout-minutes: 45
     env:
       VER: 1.0.${{ github.run_number }}
     steps:
